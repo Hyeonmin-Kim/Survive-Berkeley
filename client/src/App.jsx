@@ -1,6 +1,7 @@
 // import { useState } from 'react'
 import axios from 'axios'
 import './App.css'
+import Button from '@mui/material/Button';
 
 //data will be the string we send from our server
 const apiCall = () => {
@@ -15,7 +16,7 @@ function App() {
     <div className="App">
       <header className="App-header">
 
-        <button onClick={apiCall}>Make API Call</button>
+        <Button variant="contained" onClick={apiCall}>Make API Call</Button>
 
       </header>
     </div>
