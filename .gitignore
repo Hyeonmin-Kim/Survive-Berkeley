@@ -50,3 +50,4 @@ dist-ssr
 
 # credentials
 credentials.js
+.env
