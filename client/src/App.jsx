@@ -1,24 +1,21 @@
-// import { useState } from 'react'
-import axios from 'axios'
 import './App.css'
-
-//data will be the string we send from our server
-const apiCall = () => {
-  axios.get('http://localhost:3000').then((data) => {
-    //this console.log will be in our frontend console
-    console.log(data)
-  })
-}
+import Header from './assets/Header';
+import ReportButton from './assets/ReportButton';
+import Map from './assets/Map';
+import Categories from './assets/Catogories';
+import CssBaseline from '@mui/material/CssBaseline';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-
-        <button onClick={apiCall}>Make API Call</button>
-
-      </header>
-    </div>
+    <>
+      <CssBaseline/>
+      <div id="container">
+        <Header/>
+        <Map/>
+        <ReportButton/>
+        <Categories/>
+      </div>
+    </>
   );
 }
 

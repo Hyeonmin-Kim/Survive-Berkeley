@@ -48,4 +48,6 @@ dist-ssr
 *.sln
 *.sw?
 
+# credentials
+credentials.js
 .env
