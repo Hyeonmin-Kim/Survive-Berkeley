@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 
-const dbConnectionUri = 'mongodb+srv://hoangduy2003:hoangduy03@cluster0.abixrqy.mongodb.net/';
+dotenv.config()
+
+const dbConnectionUri = `mongodb+srv://${process.env.SECRET_USERNAME}:${process.env.SECRET_PASSWORD}@cluster0.abixrqy.mongodb.net/`;
 const dbName = "survive-berkeley";
 
 const incidentSchema = new mongoose.Schema({
