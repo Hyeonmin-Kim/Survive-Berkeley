@@ -7,8 +7,16 @@ import Categories from './assets/Catogories';
 import CssBaseline from '@mui/material/CssBaseline';
 import ReportModal from './assets/ReportModal';
 
+const mainMapConfig = {
+    id: "mainMap",
+    width: "100%",
+    height: "calc(100vh - 64px)",
+    center: [-122.259094, 37.871960],
+    zoom: 14
+}
+
 function App() {
-    const [reportModalOpen, setReportModalOpen] = React.useState(false);
+    const [reportModalOpen, setReportModalOpen] = React.useState(true);
 
     const toggleReportModal = (event) => {
       console.log("Modal toggled.");
@@ -20,7 +28,7 @@ function App() {
         <CssBaseline/>
         <div id="container">
           <Header/>
-          <Map/>
+          <Map mapConfig={mainMapConfig}/>
           <ReportButton modalHandler={toggleReportModal}/>
           <Categories/>
           <ReportModal open={reportModalOpen} modalHandler={toggleReportModal}/>
