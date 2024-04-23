@@ -6,6 +6,7 @@ import Map from './assets/Map';
 import Categories from './assets/Catogories';
 import CssBaseline from '@mui/material/CssBaseline';
 import ReportModal from './assets/ReportModal';
+import InfoBar from './assets/InfoBar';
 
 const mainMapConfig = {
     id: "mainMap",
@@ -16,9 +17,9 @@ const mainMapConfig = {
 }
 
 function App() {
-    const [reportModalOpen, setReportModalOpen] = React.useState(true);
+    const [reportModalOpen, setReportModalOpen] = React.useState(false);
 
-    const toggleReportModal = (event) => {
+    const toggleReportModal = () => {
       console.log("Modal toggled.");
       setReportModalOpen(reportModalOpen ? false : true);
     }
@@ -31,6 +32,7 @@ function App() {
           <Map mapConfig={mainMapConfig}/>
           <ReportButton modalHandler={toggleReportModal}/>
           <Categories/>
+          <InfoBar/>
           <ReportModal open={reportModalOpen} modalHandler={toggleReportModal}/>
         </div>
       </>
