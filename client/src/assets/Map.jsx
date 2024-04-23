@@ -6,7 +6,7 @@ const Map = ({ mapConfig }) => {
 
     useEffect(() => {
         mapboxgl.accessToken = MAPBOX_KEY;
-        var map = new mapboxgl.Map({
+        const map = new mapboxgl.Map({
             container: mapConfig.id,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: mapConfig.center,
