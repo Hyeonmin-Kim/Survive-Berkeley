@@ -1,12 +1,12 @@
 import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 
-const ReportButton = () => {
+const ReportButton = ({ modalHandler }) => {
     return (
-        <Fab variant="extended" sx={{
+        <Fab onClick={modalHandler} variant="extended" sx={{
             position: "absolute",
-            right: "20px",
-            bottom: "20px"
+            left: "20px",
+            bottom: "30px"
         }}>
             <EditIcon sx={{ mr: 1 }} />
             Report

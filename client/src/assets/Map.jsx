@@ -2,23 +2,22 @@ import { useEffect } from 'react';
 import MAPBOX_KEY from "./credentials";
 import Box from '@mui/material/Box';
 
-const Map = () => {
+const Map = ({ mapConfig }) => {
 
     useEffect(() => {
         mapboxgl.accessToken = MAPBOX_KEY;
         var map = new mapboxgl.Map({
-            container: 'map',
+            container: mapConfig.id,
             style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-122.259094, 37.871960],
-            zoom: 14
+            center: mapConfig.center,
+            zoom: mapConfig.zoom
         });
     })
 
     return (
         <div>
-            <Box id="map" sx={{
-                width: "100%",
-                height: "calc(100vh - 64px)",
+            <Box id={mapConfig.id} sx={{
+                width: mapConfig.width, height: mapConfig.height
             }}></Box>
         </div> 
     );
