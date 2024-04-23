@@ -5,14 +5,15 @@ import Box from '@mui/material/Box';
 const Map = ({ mapConfig }) => {
 
     useEffect(() => {
+        console.log(`${mapConfig.id} initiated.`)
         mapboxgl.accessToken = MAPBOX_KEY;
-        const map = new mapboxgl.Map({
+        var map = new mapboxgl.Map({
             container: mapConfig.id,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: mapConfig.center,
             zoom: mapConfig.zoom
         });
-    })
+    }, []);
 
     return (
         <div>
