@@ -2,20 +2,12 @@ import './App.css'
 import * as React from 'react';
 import Header from './assets/Header';
 import ReportButton from './assets/ReportButton';
-import Map from './assets/Map';
+import MainMap from './assets/MainMap';
 import Categories from './assets/Catogories';
 import CssBaseline from '@mui/material/CssBaseline';
 import ReportModal from './assets/ReportModal';
 import InfoBar from './assets/InfoBar';
 import CenterButton from './assets/CenterButton';
-
-const mainMapConfig = {
-    id: "mainMap",
-    width: "100%",
-    height: "calc(100vh - 64px)",
-    center: [-122.259094, 37.871960],
-    zoom: 15
-}
 
 function App() {
     const [reportModalOpen, setReportModalOpen] = React.useState(false);
@@ -34,7 +26,7 @@ function App() {
         <CssBaseline/>
         <div id="container">
           <Header/>
-          <Map mapConfig={mainMapConfig}/>
+          <MainMap/>
           <ReportButton modalHandler={toggleReportModal}/>
           <CenterButton/>
           <Categories/>

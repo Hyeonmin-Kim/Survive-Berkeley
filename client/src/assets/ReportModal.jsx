@@ -12,8 +12,6 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 
-import Map from './Map';
-
 const style = {
     position: 'absolute',
     top: '50%',
@@ -89,7 +87,7 @@ const ReportModal = ({ open, modalHandler }) => {
                     display: 'flex',
                 }}>
                     <Box sx={{ width: '40%', paddingRight: '10px' }}>
-                        <Map mapConfig={modalMapConfig}/>
+                        {/* <Map mapConfig={modalMapConfig}/> */}
                         <Typography variant="h6" gutterBottom sx={{ marginTop: '10px' }}>
                             Coordinates Here
                         </Typography>
