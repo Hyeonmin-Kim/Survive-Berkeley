@@ -1,4 +1,7 @@
 import * as React from 'react';
+import Map from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import MAPBOX_API from './credentials';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -87,7 +90,20 @@ const ReportModal = ({ open, modalHandler }) => {
                     display: 'flex',
                 }}>
                     <Box sx={{ width: '40%', paddingRight: '10px' }}>
-                        {/* <Map mapConfig={modalMapConfig}/> */}
+                    <Map
+                        mapboxAccessToken={MAPBOX_API}
+                        initialViewState={{
+                            longitude: modalMapConfig.center[0],
+                            latitude: modalMapConfig.center[1],
+                            zoom: modalMapConfig.zoom
+                        }}
+                        mapStyle="mapbox://styles/mapbox/streets-v11"
+                        style={{
+                            width: modalMapConfig.width,
+                            height: modalMapConfig.height,
+                        }}
+                    >
+                    </Map>
                         <Typography variant="h6" gutterBottom sx={{ marginTop: '10px' }}>
                             Coordinates Here
                         </Typography>
