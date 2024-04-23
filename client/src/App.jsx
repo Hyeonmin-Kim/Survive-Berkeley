@@ -18,10 +18,14 @@ const mainMapConfig = {
 
 function App() {
     const [reportModalOpen, setReportModalOpen] = React.useState(false);
+    const [infoBarOpen, setInfoBarOpen] = React.useState(false);
 
     const toggleReportModal = () => {
-      console.log("Modal toggled.");
       setReportModalOpen(reportModalOpen ? false : true);
+    }
+
+    const toggleInfoBar = () => {
+      setInfoBarOpen(infoBarOpen ? false : true);
     }
 
     return (
@@ -32,7 +36,7 @@ function App() {
           <Map mapConfig={mainMapConfig}/>
           <ReportButton modalHandler={toggleReportModal}/>
           <Categories/>
-          <InfoBar/>
+          <InfoBar open={infoBarOpen}/>
           <ReportModal open={reportModalOpen} modalHandler={toggleReportModal}/>
         </div>
       </>
