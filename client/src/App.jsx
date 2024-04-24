@@ -8,6 +8,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import ReportModal from './assets/ReportModal';
 import InfoBar from './assets/InfoBar';
 import CenterButton from './assets/CenterButton';
+import Popup from './assets/Popup';
 
 const mainMapConfig = {
   id: "mainMap",
@@ -41,6 +42,7 @@ function App() {
           <Categories/>
           <InfoBar open={infoBarOpen}/>
           <ReportModal open={reportModalOpen} modalHandler={toggleReportModal}/>
+          <Popup/>
         </div>
       </>
     );
