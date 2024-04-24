@@ -4,7 +4,7 @@
 
 ### Front-end Functionality
 - [x] Back to default map when a button's clicked
-- [ ] GPS?
+- [x] GPS?
 - [ ] Put pins with given pin list (bearwalk etc.)
 - [ ] When pin's clicked the infobar shows up with relevant info
 - [x] Add a pin when clicked and create a popup with coords and address (or with pictures)

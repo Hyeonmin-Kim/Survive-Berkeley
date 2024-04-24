@@ -27,14 +27,6 @@ const style = {
     p: 4
 };
 
-const modalMapConfig = {
-    id: "modalMap",
-    width: "100%",
-    height: "200px",
-    center: [-122.259094, 37.871960],
-    zoom: 16
-}
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -61,7 +53,15 @@ function getStyles(name, personName, theme) {
     };
 }
 
-const ReportModal = ({ open, modalHandler }) => {
+const ReportModal = ({ open, modalHandler, lng, lat }) => {
+    const modalMapConfig = {
+        id: "modalMap",
+        width: "100%",
+        height: "200px",
+        center: [lng || -122.259094, lat || 37.871960],
+        zoom: 16
+    }
+
     const theme = useTheme();
     const [tagName, setTagName] = React.useState([]);
 
