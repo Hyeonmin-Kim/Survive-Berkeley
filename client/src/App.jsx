@@ -20,7 +20,7 @@ const mainMapConfig = {
 
 function App() {
     const [reportModalOpen, setReportModalOpen] = React.useState(false);
-    const [infoBarOpen, setInfoBarOpen] = React.useState(false);
+    const [infoBarOpen, setInfoBarOpen] = React.useState(true);
     const [mainMap, setMainMap] = React.useState(null);
 
     const toggleReportModal = () => {
