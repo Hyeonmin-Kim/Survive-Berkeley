@@ -1,8 +1,8 @@
 import Fab from '@mui/material/Fab';
 
-const CenterButton = ({ buttonCnt, buttonCntHandler }) => {
+const CenterButton = ({ mainMap }) => {
     const centerMap = () => {
-        buttonCntHandler(buttonCnt + 1);
+        mainMap.current.setCenter([-122.259094, 37.871960]);
         console.log("clicked!");
     };
 

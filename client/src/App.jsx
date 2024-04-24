@@ -20,7 +20,7 @@ const mainMapConfig = {
 function App() {
     const [reportModalOpen, setReportModalOpen] = React.useState(false);
     const [infoBarOpen, setInfoBarOpen] = React.useState(false);
-    const [centerButtonCnt, setCenterButtonCnt] = React.useState(0);
+    const [mainMap, setMainMap] = React.useState(null);
 
     const toggleReportModal = () => {
       setReportModalOpen(reportModalOpen ? false : true);
@@ -35,9 +35,9 @@ function App() {
         <CssBaseline/>
         <div id="container">
           <Header/>
-          <MainMap centerButtonCnt={centerButtonCnt} />
+          <MainMap hooker={setMainMap} />
           <ReportButton modalHandler={toggleReportModal}/>
-          <CenterButton buttonCnt={centerButtonCnt} buttonCntHandler={setCenterButtonCnt} />
+          <CenterButton mainMap={mainMap} />
           <Categories/>
           <InfoBar open={infoBarOpen}/>
           <ReportModal open={reportModalOpen} modalHandler={toggleReportModal}/>
