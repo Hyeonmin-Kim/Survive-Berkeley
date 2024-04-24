@@ -2,8 +2,15 @@
 
 ## Todos
 
-### Setup
-- [x] Initial setup for both frontend/backend development (4. 11.) 
+### Front-end Functionality
+- [ ] Back to default map when a button's clicked
+- [ ] GPS?
+- [ ] Put pins with given pin list (bearwalk etc.)
+- [ ] When pin's clicked the infobar shows up with relevant info
+- [ ] Add a pin when clicked and create a popup with coords and address (or with pictures)
+- [ ] Set up the map in the report modal
+- [ ] Many more with the infobar, but not yet!
+
 
 ## How to set up
 1. Open terminal ("terminal 1") and type `cd client`
