@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
+import AddLocationIcon from '@mui/icons-material/AddLocation';
+
 import { getAddress } from './utils';
 
 const style = {
@@ -114,6 +116,11 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                         onLoad={handleCenterChange}
                         onDragEnd={handleCenterChange}
                     >
+                        <AddLocationIcon fontSize='large' color='secondary' sx={{
+                            position: 'absolute',
+                            top: 'calc(50% - 17.5px)',
+                            left: 'calc(50% - 17.5px)'
+                        }}/>
                     </Map>
                         <Typography variant="h6" gutterBottom sx={{ marginTop: '10px' }}>
                             {address.name}

@@ -5,6 +5,7 @@ const getAddress = async (lng, lat) => {
     const address = await fetch(url)
         .then(res => res.json())
         .then(data => {
+            // console.log(data);
             return {
                 name: data.features[0].properties.name,
                 address: data.features[0].properties.full_address
