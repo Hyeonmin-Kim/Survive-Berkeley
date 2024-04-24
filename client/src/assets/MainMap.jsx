@@ -1,6 +1,7 @@
 import Map from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MAPBOX_API from './credentials';
+import { useEffect, useRef } from 'react';
 
 const mainMapConfig = {
     id: "mainMap",
@@ -10,9 +11,20 @@ const mainMapConfig = {
     zoom: 15
 }
 
-const MainMap = () => {
+const MainMap = ({ centerButtonCnt }) => {
+    useEffect(() => {
+        mapboxgl.accessToken = MAPBOX_API;
+        const map = new mapboxgl.Map({
+            container: 'mainMap',
+            center: mainMapConfig.center,
+            zoom: mainMapConfig.zoom
+        });
+        console.log(map);
+    }, [centerButtonCnt]);
+
     return (
         <Map
+            id="mainMap"
             mapboxAccessToken={MAPBOX_API}
             initialViewState={{
                 longitude: mainMapConfig.center[0],
