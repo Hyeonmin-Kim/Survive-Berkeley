@@ -31,7 +31,8 @@ function Popup({ highlightPins, highlightPinHandler, popupHandler, open }) {
             <CloseIcon fontSize='small' color='disabled' sx={{
               position: "absolute",
               right: "10px",
-              top: "10px"
+              top: "10px",
+              cursor: "pointer"
             }} onClick={closePopup}/>
           </CardActions>
         </Card>

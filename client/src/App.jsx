@@ -25,6 +25,7 @@ function App() {
 
     const [mainMap, setMainMap] = React.useState(null);
 
+    const [currentLocation, setCurrentLocation] = React.useState([]);
     const [highlightPins, setHighlightPins] = React.useState([]);
 
     const toggleReportModal = () => {
@@ -40,7 +41,14 @@ function App() {
         <CssBaseline/>
         <div id="container">
           <Header/>
-          <MainMap hooker={setMainMap} popupHandler={setPopupOpen} highlightPins={highlightPins} highlightPinHandler={setHighlightPins} />
+          <MainMap 
+            hooker={setMainMap} 
+            popupHandler={setPopupOpen} 
+            highlightPins={highlightPins} 
+            highlightPinHandler={setHighlightPins} 
+            currentLocation={currentLocation} 
+            currentLocationHandler={setCurrentLocation} 
+          />
           <ReportButton modalHandler={toggleReportModal}/>
           <CenterButton mainMap={mainMap} />
           <Categories/>
