@@ -21,7 +21,11 @@ const mainMapConfig = {
 function App() {
     const [reportModalOpen, setReportModalOpen] = React.useState(false);
     const [infoBarOpen, setInfoBarOpen] = React.useState(false);
+    const [popupOpen, setPopupOpen] = React.useState(false);
+
     const [mainMap, setMainMap] = React.useState(null);
+
+    const [highlightPins, setHighlightPins] = React.useState([]);
 
     const toggleReportModal = () => {
       setReportModalOpen(reportModalOpen ? false : true);
@@ -36,13 +40,13 @@ function App() {
         <CssBaseline/>
         <div id="container">
           <Header/>
-          <MainMap hooker={setMainMap} />
+          <MainMap hooker={setMainMap} popupHandler={setPopupOpen} highlightPins={highlightPins} highlightPinHandler={setHighlightPins} />
           <ReportButton modalHandler={toggleReportModal}/>
           <CenterButton mainMap={mainMap} />
           <Categories/>
           <InfoBar open={infoBarOpen}/>
           <ReportModal open={reportModalOpen} modalHandler={toggleReportModal}/>
-          <Popup/>
+          <Popup open={popupOpen} popupHandler={setPopupOpen} highlightPins={highlightPins} highlightPinHandler={setHighlightPins}/>
         </div>
       </>
     );
