@@ -14,6 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
+import AddLocationIcon from '@mui/icons-material/AddLocation';
+
+import { getAddress, nullAddress } from './utils';
 
 const style = {
     position: 'absolute',
@@ -27,14 +30,6 @@ const style = {
     p: 4
 };
 
-const modalMapConfig = {
-    id: "modalMap",
-    width: "100%",
-    height: "200px",
-    center: [-122.259094, 37.871960],
-    zoom: 16
-}
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -47,9 +42,17 @@ const MenuProps = {
 };
 
 const categories = [
-  'Category A',
-  'Category B',
-  'Category C',
+  'gun shooting',
+  'murder',
+  'aggrevated assualt',
+  'sex offense',
+  'robbery',
+  'burglary and theft',
+  'fire',
+  'traffic accident',
+  'natural disaster',
+  'other(crime)',
+  'other(accident)'
 ];
 
 function getStyles(name, personName, theme) {
@@ -61,18 +64,57 @@ function getStyles(name, personName, theme) {
     };
 }
 
-const ReportModal = ({ open, modalHandler }) => {
+const MIN_TITLE_LENGTH = 5;
+const MIN_DETAIL_LENGTH = 10;
+
+const ReportModal = ({ open, modalHandler, lng, lat }) => {
+    const modalMapConfig = {
+        id: "modalMap",
+        width: "100%",
+        height: "200px",
+        center: [lng || -122.259094, lat || 37.871960],
+        zoom: 16
+    }
+    const modalMapRef = React.useRef();
+
     const theme = useTheme();
     const [tagName, setTagName] = React.useState([]);
+    const [address, setAddress] = React.useState(nullAddress);
+    const [title, setTitle] = React.useState("");
+    const [titleError, setTitleError] = React.useState(true);
+    const [detail, setDetail] = React.useState("");
+    const [detailError, setDetailError] = React.useState(true);
 
     const handleChange = (event) => {
         const {
-        target: { value },
+            target: { value },
         } = event;
         setTagName(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
+            typeof value === 'string' ? value.split(',') : value,
         );
+    };
+
+    const handleCenterChange = async () => {
+        const { lng, lat } = modalMapRef.current.getCenter();
+        const currAddress = await getAddress(lng, lat);
+        setAddress(currAddress);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log([address, title, tagName, detail]);
+
+        if (!(titleError || detailError)) {
+            // close modal
+            modalHandler();
+            // reset
+            setAddress(nullAddress);
+            setTitle("");
+            setTagName([]);
+            setDetail("");
+            setTitleError(true);
+            setDetailError(true);
+        }
     };
 
     return (
@@ -85,6 +127,7 @@ const ReportModal = ({ open, modalHandler }) => {
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     Report a New Issue
                 </Typography>
+                <form onSubmit={handleSubmit}>
                 <Box sx={{
                     marginTop: '20px',
                     display: 'flex',
@@ -102,14 +145,22 @@ const ReportModal = ({ open, modalHandler }) => {
                             width: modalMapConfig.width,
                             height: modalMapConfig.height,
                         }}
+                        ref={modalMapRef}
+                        onLoad={handleCenterChange}
+                        onDragEnd={handleCenterChange}
                     >
+                        <AddLocationIcon fontSize='large' color='primary' sx={{
+                            position: 'absolute',
+                            top: 'calc(50% - 17.5px)',
+                            left: 'calc(50% - 17.5px)'
+                        }}/>
                     </Map>
-                        <Typography variant="h6" gutterBottom sx={{ marginTop: '10px' }}>
-                            Coordinates Here
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Address Here
-                        </Typography>
+                    <Typography variant="h6" gutterBottom sx={{ marginTop: '10px' }}>
+                        {address.name}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        {address.address}
+                    </Typography>
                     </Box>
                     <Box sx={{ 
                         width: '60%',
@@ -118,7 +169,18 @@ const ReportModal = ({ open, modalHandler }) => {
                         flexDirection: 'column',
                         minHeight: '300px',
                     }}>
-                        <TextField id="issue-title" label="Title" variant="standard" sx={{ width: '100%', marginBottom: '20px' }} />
+                        <TextField 
+                            id="issue-title" 
+                            label="Title" 
+                            variant="standard" 
+                            sx={{ width: '100%', marginBottom: '20px' }} 
+                            value={title}
+                            error={titleError}
+                            onChange={(e) => {
+                                setTitle(e.target.value);
+                                setTitleError(e.target.value.length < MIN_TITLE_LENGTH);
+                            }}
+                        />
                         <FormControl sx={{ m: 0, width: '100%', marginBottom: '20px' }}>
                             <InputLabel id="issue-tags">Tags</InputLabel>
                             <Select
@@ -148,12 +210,25 @@ const ReportModal = ({ open, modalHandler }) => {
                             ))}
                             </Select>
                         </FormControl>
-                        <TextField id="issue-detail" label="Detail" variant="outlined" multiline rows={5} />
-                    </Box>
+                        <TextField 
+                            id="issue-detail" 
+                            label="Detail" 
+                            variant="outlined" 
+                            multiline 
+                            rows={5} 
+                            value={detail}
+                            error={detailError}
+                            onChange={(e) => {
+                                setDetail(e.target.value);
+                                setDetailError(e.target.value.length < MIN_TITLE_LENGTH);
+                            }}
+                        />
+                    </Box> 
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row-reverse', marginTop: '20px' }}>
-                    <Button variant="contained">Report</Button>
+                    <Button variant="contained" type='submit' color={titleError || detailError ? 'grey': 'primary'}>Report</Button>
                 </Box>
+                </form>
             </Box>
         </Modal>
     );

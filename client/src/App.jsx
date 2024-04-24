@@ -25,6 +25,12 @@ function App() {
   
     const [mainMap, setMainMap] = React.useState(null);
 
+    const [reportModalCenter, setReportModalCenter] = React.useState({
+      lng: undefined,
+      lat: undefined
+    });
+
+    const [currentLocation, setCurrentLocation] = React.useState([]);
     const [highlightPins, setHighlightPins] = React.useState([]);
 
     const toggleReportModal = () => {
@@ -40,13 +46,36 @@ function App() {
         <CssBaseline/>
         <div id="container">
           <Header/>
-          <MainMap hooker={setMainMap} popupHandler={setPopupOpen} highlightPins={highlightPins} highlightPinHandler={setHighlightPins} />
-          <ReportButton modalHandler={toggleReportModal}/>
+          <MainMap 
+            hooker={setMainMap} 
+            popupHandler={setPopupOpen} 
+            highlightPins={highlightPins} 
+            highlightPinHandler={setHighlightPins} 
+            currentLocation={currentLocation} 
+            currentLocationHandler={setCurrentLocation} 
+          />
+          <ReportButton 
+            modalHandler={toggleReportModal} 
+            currentLocation={currentLocation} 
+            modalMapCenterHandler={setReportModalCenter} 
+          />
           <CenterButton mainMap={mainMap} />
           <Categories/>
           <InfoBar open={infoBarOpen}/>
-          <ReportModal open={reportModalOpen} modalHandler={toggleReportModal}/>
-          <Popup open={popupOpen} popupHandler={setPopupOpen} highlightPins={highlightPins} highlightPinHandler={setHighlightPins}/>
+          <ReportModal 
+            open={reportModalOpen} 
+            modalHandler={toggleReportModal}
+            lng={reportModalCenter.lng}
+            lat={reportModalCenter.lat}
+          />
+          <Popup 
+            open={popupOpen} 
+            popupHandler={setPopupOpen} 
+            modalHandler={toggleReportModal}
+            highlightPins={highlightPins} 
+            highlightPinHandler={setHighlightPins}
+            modalMapCenterHandler={setReportModalCenter}
+          />
         </div>
       </>
     );

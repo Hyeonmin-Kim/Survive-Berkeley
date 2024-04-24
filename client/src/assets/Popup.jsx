@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import Grow from '@mui/material/Grow';
 
-function Popup({ highlightPins, highlightPinHandler, popupHandler, open }) {
+function Popup({ highlightPins, highlightPinHandler, modalHandler, popupHandler, open, modalMapCenterHandler }) {
     const closePopup = () => {
       popupHandler(false);
       setTimeout(() => {
@@ -14,6 +14,16 @@ function Popup({ highlightPins, highlightPinHandler, popupHandler, open }) {
       }, 100);
       
     };
+
+    const openModal = () => {
+      modalMapCenterHandler({
+        lng: highlightPins[0].lng,
+        lat: highlightPins[0].lat
+      });
+      closePopup();
+      modalHandler();
+
+    }
 
     return (
       <Grow in={open}>
@@ -24,14 +34,15 @@ function Popup({ highlightPins, highlightPinHandler, popupHandler, open }) {
           left : "calc(50% - 150px)" 
         }} variant="outlined">
           <CardContent>
-            {highlightPins.length ? highlightPins[0].address : "[UNSPECIFIED]"}
+            {highlightPins.length ? highlightPins[0].address.name : "[UNSPECIFIED]"}
           </CardContent>
           <CardActions>
-            <Button size="small">Report</Button>
+            <Button onClick={openModal} size="small">Report</Button>
             <CloseIcon fontSize='small' color='disabled' sx={{
               position: "absolute",
               right: "10px",
-              top: "10px"
+              top: "10px",
+              cursor: "pointer"
             }} onClick={closePopup}/>
           </CardActions>
         </Card>

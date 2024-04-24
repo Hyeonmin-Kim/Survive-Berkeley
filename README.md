@@ -3,12 +3,12 @@
 ## Todos
 
 ### Front-end Functionality
-- [ ] Back to default map when a button's clicked
-- [ ] GPS?
+- [x] Back to default map when a button's clicked
+- [x] GPS?
 - [ ] Put pins with given pin list (bearwalk etc.)
 - [ ] When pin's clicked the infobar shows up with relevant info
-- [ ] Add a pin when clicked and create a popup with coords and address (or with pictures)
-- [ ] Set up the map in the report modal
+- [x] Add a pin when clicked and create a popup with coords and address (or with pictures)
+- [x] Set up the map in the report modal
 - [ ] Many more with the infobar, but not yet!
 
 
