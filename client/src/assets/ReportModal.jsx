@@ -56,6 +56,9 @@ function getStyles(name, personName, theme) {
     };
 }
 
+const MIN_TITLE_LENGTH = 5;
+const MIN_DETAIL_LENGTH = 10;
+
 const ReportModal = ({ open, modalHandler, lng, lat }) => {
     const modalMapConfig = {
         id: "modalMap",
@@ -70,7 +73,9 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
     const [tagName, setTagName] = React.useState([]);
     const [address, setAddress] = React.useState(nullAddress);
     const [title, setTitle] = React.useState("");
+    const [titleError, setTitleError] = React.useState(true);
     const [detail, setDetail] = React.useState("");
+    const [detailError, setDetailError] = React.useState(true);
 
     const handleChange = (event) => {
         const {
@@ -91,14 +96,15 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
         event.preventDefault();
         console.log([address, title, tagName, detail]);
 
-        // close modal
-        modalHandler();
-        
-        // reset
-        setAddress(nullAddress);
-        setTitle("");
-        setTagName([]);
-        setDetail("");
+        if (!(titleError || detailError)) {
+            // close modal
+            modalHandler();
+            // reset
+            setAddress(nullAddress);
+            setTitle("");
+            setTagName([]);
+            setDetail("");
+        }
     };
 
     return (
@@ -159,7 +165,11 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                             variant="standard" 
                             sx={{ width: '100%', marginBottom: '20px' }} 
                             value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            error={titleError}
+                            onChange={(e) => {
+                                setTitle(e.target.value);
+                                setTitleError(e.target.value.length < MIN_TITLE_LENGTH);
+                            }}
                         />
                         <FormControl sx={{ m: 0, width: '100%', marginBottom: '20px' }}>
                             <InputLabel id="issue-tags">Tags</InputLabel>
@@ -197,12 +207,16 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                             multiline 
                             rows={5} 
                             value={detail}
-                            onChange={(e) => setDetail(e.target.value)}
+                            error={detailError}
+                            onChange={(e) => {
+                                setDetail(e.target.value);
+                                setDetailError(e.target.value.length < MIN_TITLE_LENGTH);
+                            }}
                         />
                     </Box> 
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row-reverse', marginTop: '20px' }}>
-                    <Button variant="contained" type='submit'>Report</Button>
+                    <Button variant="contained" type='submit' color={titleError || detailError ? 'grey': 'primary'}>Report</Button>
                 </Box>
                 </form>
             </Box>
