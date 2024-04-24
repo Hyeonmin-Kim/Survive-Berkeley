@@ -1,5 +1,10 @@
 import MAPBOX_API from './credentials';
 
+const nullAddress = {
+    name: "[UNSPECIFIED]",
+    address: "[UNSPECIFIED]"
+}
+
 const getAddress = async (lng, lat) => {
     const url = `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lng}&latitude=${lat}&access_token=${MAPBOX_API}`;
     const address = await fetch(url)
@@ -13,12 +18,9 @@ const getAddress = async (lng, lat) => {
         })
         .catch(error => { 
             console.log(error);
-            return {
-                name: "[UNSPECIFIED]",
-                address: "[UNSPECIFIED]"
-            };
+            return nullAddress;
         });
     return address;
 }
 
-export { getAddress };
+export { nullAddress, getAddress };

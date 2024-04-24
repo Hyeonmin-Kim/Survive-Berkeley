@@ -16,7 +16,7 @@ import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 
-import { getAddress } from './utils';
+import { getAddress, nullAddress } from './utils';
 
 const style = {
     position: 'absolute',
@@ -68,7 +68,9 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
 
     const theme = useTheme();
     const [tagName, setTagName] = React.useState([]);
-    const [address, setAddress] = React.useState("[UNSPECIFIED]");
+    const [address, setAddress] = React.useState(nullAddress);
+    const [title, setTitle] = React.useState("");
+    const [detail, setDetail] = React.useState("");
 
     const handleChange = (event) => {
         const {
@@ -85,6 +87,20 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
         setAddress(currAddress);
     };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log([address, title, tagName, detail]);
+
+        // close modal
+        modalHandler();
+        
+        // reset
+        setAddress(nullAddress);
+        setTitle("");
+        setTagName([]);
+        setDetail("");
+    };
+
     return (
         <Modal
             open={open}
@@ -95,6 +111,7 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     Report a New Issue
                 </Typography>
+                <form onSubmit={handleSubmit}>
                 <Box sx={{
                     marginTop: '20px',
                     display: 'flex',
@@ -116,18 +133,18 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                         onLoad={handleCenterChange}
                         onDragEnd={handleCenterChange}
                     >
-                        <AddLocationIcon fontSize='large' color='secondary' sx={{
+                        <AddLocationIcon fontSize='large' color='primary' sx={{
                             position: 'absolute',
                             top: 'calc(50% - 17.5px)',
                             left: 'calc(50% - 17.5px)'
                         }}/>
                     </Map>
-                        <Typography variant="h6" gutterBottom sx={{ marginTop: '10px' }}>
-                            {address.name}
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            {address.address}
-                        </Typography>
+                    <Typography variant="h6" gutterBottom sx={{ marginTop: '10px' }}>
+                        {address.name}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        {address.address}
+                    </Typography>
                     </Box>
                     <Box sx={{ 
                         width: '60%',
@@ -136,7 +153,14 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                         flexDirection: 'column',
                         minHeight: '300px',
                     }}>
-                        <TextField id="issue-title" label="Title" variant="standard" sx={{ width: '100%', marginBottom: '20px' }} />
+                        <TextField 
+                            id="issue-title" 
+                            label="Title" 
+                            variant="standard" 
+                            sx={{ width: '100%', marginBottom: '20px' }} 
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
                         <FormControl sx={{ m: 0, width: '100%', marginBottom: '20px' }}>
                             <InputLabel id="issue-tags">Tags</InputLabel>
                             <Select
@@ -166,12 +190,21 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                             ))}
                             </Select>
                         </FormControl>
-                        <TextField id="issue-detail" label="Detail" variant="outlined" multiline rows={5} />
-                    </Box>
+                        <TextField 
+                            id="issue-detail" 
+                            label="Detail" 
+                            variant="outlined" 
+                            multiline 
+                            rows={5} 
+                            value={detail}
+                            onChange={(e) => setDetail(e.target.value)}
+                        />
+                    </Box> 
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row-reverse', marginTop: '20px' }}>
-                    <Button variant="contained">Report</Button>
+                    <Button variant="contained" type='submit'>Report</Button>
                 </Box>
+                </form>
             </Box>
         </Modal>
     );
