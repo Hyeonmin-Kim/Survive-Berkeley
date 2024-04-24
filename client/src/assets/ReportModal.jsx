@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
+import { getAddress } from './utils';
 
 const style = {
     position: 'absolute',
@@ -61,18 +62,25 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
         center: [lng || -122.259094, lat || 37.871960],
         zoom: 16
     }
+    const modalMapRef = React.useRef();
 
     const theme = useTheme();
     const [tagName, setTagName] = React.useState([]);
+    const [address, setAddress] = React.useState("[UNSPECIFIED]");
 
     const handleChange = (event) => {
         const {
-        target: { value },
+            target: { value },
         } = event;
         setTagName(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
+            typeof value === 'string' ? value.split(',') : value,
         );
+    };
+
+    const handleCenterChange = async () => {
+        const { lng, lat } = modalMapRef.current.getCenter();
+        const currAddress = await getAddress(lng, lat);
+        setAddress(currAddress);
     };
 
     return (
@@ -102,13 +110,16 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                             width: modalMapConfig.width,
                             height: modalMapConfig.height,
                         }}
+                        ref={modalMapRef}
+                        onLoad={handleCenterChange}
+                        onDragEnd={handleCenterChange}
                     >
                     </Map>
                         <Typography variant="h6" gutterBottom sx={{ marginTop: '10px' }}>
-                            Coordinates Here
+                            {address.name}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Address Here
+                            {address.address}
                         </Typography>
                     </Box>
                     <Box sx={{ 

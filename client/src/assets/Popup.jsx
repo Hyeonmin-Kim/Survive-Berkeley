@@ -34,7 +34,7 @@ function Popup({ highlightPins, highlightPinHandler, modalHandler, popupHandler,
           left : "calc(50% - 150px)" 
         }} variant="outlined">
           <CardContent>
-            {highlightPins.length ? highlightPins[0].address : "[UNSPECIFIED]"}
+            {highlightPins.length ? highlightPins[0].address.name : "[UNSPECIFIED]"}
           </CardContent>
           <CardActions>
             <Button onClick={openModal} size="small">Report</Button>

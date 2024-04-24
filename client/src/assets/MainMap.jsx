@@ -1,7 +1,10 @@
-import { Map, Marker }  from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MAPBOX_API from './credentials';
+
+import { getAddress } from './utils';
+
 import { useRef } from 'react';
+import { Map, Marker }  from 'react-map-gl';
 import mainMapConfig from './mainMapConfig';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
@@ -29,20 +32,6 @@ const MainMap = ({ hooker, popupHandler, highlightPins, highlightPinHandler, cur
             maximumAge: 0,
         });
     };
-    
-    const getAddress = async (lng, lat) => {
-        const url = `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lng}&latitude=${lat}&access_token=${MAPBOX_API}`;
-        const address = await fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                return data.features[0].properties.name;
-            })
-            .catch(error => { 
-                console.log(error);
-                return "[UNSPECIFIED]";
-            });
-        return address;
-    }
 
     const mainMapOnClick = async (event) => {
         const newPin = {
