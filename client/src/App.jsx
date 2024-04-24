@@ -22,7 +22,7 @@ function App() {
     const [reportModalOpen, setReportModalOpen] = React.useState(false);
     const [infoBarOpen, setInfoBarOpen] = React.useState(false);
     const [popupOpen, setPopupOpen] = React.useState(false);
-
+  
     const [mainMap, setMainMap] = React.useState(null);
 
     const [highlightPins, setHighlightPins] = React.useState([]);
