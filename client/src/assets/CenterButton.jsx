@@ -1,8 +1,10 @@
 import Fab from '@mui/material/Fab';
+import mainMapConfig from './mainMapConfig';
 
 const CenterButton = ({ mainMap }) => {
     const centerMap = () => {
-        mainMap.current.setCenter([-122.259094, 37.871960]);
+        mainMap.current.setCenter(mainMapConfig.center);
+        mainMap.current.setZoom(mainMapConfig.zoom);
         console.log("clicked!");
     };
 

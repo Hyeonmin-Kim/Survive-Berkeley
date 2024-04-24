@@ -2,14 +2,7 @@ import Map from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MAPBOX_API from './credentials';
 import { useRef } from 'react';
-
-const mainMapConfig = {
-    id: "mainMap",
-    width: "100%",
-    height: "calc(100vh - 64px)",
-    center: [-122.259094, 37.871960],
-    zoom: 15
-}
+import mainMapConfig from './mainMapConfig';
 
 const MainMap = ({ hooker }) => {
     const mainMapRef = useRef();
