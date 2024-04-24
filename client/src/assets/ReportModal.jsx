@@ -42,9 +42,17 @@ const MenuProps = {
 };
 
 const categories = [
-  'Category A',
-  'Category B',
-  'Category C',
+  'gun shooting',
+  'murder',
+  'aggrevated assualt',
+  'sex offense',
+  'robbery',
+  'burglary and theft',
+  'fire',
+  'traffic accident',
+  'natural disaster',
+  'other(crime)',
+  'other(accident)'
 ];
 
 function getStyles(name, personName, theme) {
@@ -104,6 +112,8 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
             setTitle("");
             setTagName([]);
             setDetail("");
+            setTitleError(true);
+            setDetailError(true);
         }
     };
 
