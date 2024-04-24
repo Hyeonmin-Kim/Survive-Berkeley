@@ -53,7 +53,6 @@ function App() {
             highlightPinHandler={setHighlightPins} 
             currentLocation={currentLocation} 
             currentLocationHandler={setCurrentLocation} 
-            modalMapCenterHandler={setReportModalCenter}
           />
           <ReportButton 
             modalHandler={toggleReportModal} 
@@ -72,6 +71,7 @@ function App() {
           <Popup 
             open={popupOpen} 
             popupHandler={setPopupOpen} 
+            modalHandler={toggleReportModal}
             highlightPins={highlightPins} 
             highlightPinHandler={setHighlightPins}
             modalMapCenterHandler={setReportModalCenter}

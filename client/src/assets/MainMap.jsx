@@ -6,7 +6,7 @@ import mainMapConfig from './mainMapConfig';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 
-const MainMap = ({ hooker, popupHandler, highlightPins, highlightPinHandler, currentLocation, currentLocationHandler, modalMapCenterHandler }) => {
+const MainMap = ({ hooker, popupHandler, highlightPins, highlightPinHandler, currentLocation, currentLocationHandler }) => {
     const mainMapRef = useRef();
 
     const watchLocation = () => {
@@ -52,10 +52,6 @@ const MainMap = ({ hooker, popupHandler, highlightPins, highlightPinHandler, cur
         }
         newPin.address = await getAddress(event.lngLat.lng, event.lngLat.lat);
         highlightPinHandler([newPin]);
-        modalMapCenterHandler({
-            lng: event.lngLat.lng,
-            lat: event.lngLat.lat,
-        });
         popupHandler(true);
     };
 
