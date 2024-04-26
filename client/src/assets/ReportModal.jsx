@@ -15,6 +15,7 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
+import AutoHideSnackbar from './AutoHideSnackbar';
 
 import { getAddress, nullAddress } from './utils';
 
@@ -82,8 +83,10 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
     const [address, setAddress] = React.useState(nullAddress);
     const [title, setTitle] = React.useState("");
     const [titleError, setTitleError] = React.useState(true);
+    const [titleErrMsg, setTitleErrMsg] = React.useState(false);
     const [detail, setDetail] = React.useState("");
     const [detailError, setDetailError] = React.useState(true);
+    const [detailErrMsg, setDetailErrMsg] = React.useState(false);
 
     const handleChange = (event) => {
         const {
@@ -104,7 +107,11 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
         event.preventDefault();
         console.log([address, title, tagName, detail]);
 
-        if (!(titleError || detailError)) {
+        if (titleError) {
+            setTitleErrMsg(true);
+        } else if (detailError) {
+            setDetailErrMsg(true);
+        } else {
             // close modal
             modalHandler();
             // reset
@@ -229,6 +236,18 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                     <Button variant="contained" type='submit' color={titleError || detailError ? 'grey': 'primary'}>Report</Button>
                 </Box>
                 </form>
+                <AutoHideSnackbar
+                    open={titleErrMsg}
+                    setOpen={setTitleErrMsg}
+                    message={`Title should have at least ${MIN_TITLE_LENGTH} characters.`}
+                    duration={5000}
+                />
+                <AutoHideSnackbar
+                    open={detailErrMsg}
+                    setOpen={setDetailErrMsg}
+                    message={`Detail should have at least ${MIN_DETAIL_LENGTH} characters.`}
+                    duration={5000}
+                />
             </Box>
         </Modal>
     );
