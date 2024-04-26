@@ -105,13 +105,24 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log([address, title, tagName, detail]);
+        // console.log([address, title, tagName, detail]);
 
         if (titleError) {
             setTitleErrMsg(true);
         } else if (detailError) {
             setDetailErrMsg(true);
         } else {
+            // send data
+            const { lng, lat } = modalMapRef.current.getCenter();
+            const newReport = {
+                coords: { lng, lat },
+                address: { abbreviated: address.name, full: address.address },
+                title,
+                tags: tagName,
+                detail,
+                createdAt: new Date().toISOString()
+            }
+            console.log(newReport) // TODO: fetch this to backend
             // close modal
             modalHandler();
             // reset
