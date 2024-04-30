@@ -11,6 +11,10 @@
 - [x] Set up the map in the report modal
 - [ ] Many more with the infobar, but not yet!
 
+### Front-back connection
+- [ ] Create new report with POST
+- [ ] Fetch all recent report with GET
+
 
 ## How to set up
 1. Open terminal ("terminal 1") and type `cd client`
