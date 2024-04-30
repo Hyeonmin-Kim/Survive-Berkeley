@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import AutoHideSnackbar from './AutoHideSnackbar';
 
-import { getAddress, nullAddress } from './utils';
+import { backendURL, getAddress, nullAddress } from './utils';
 
 const style = {
     position: 'absolute',
@@ -122,7 +122,15 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                 detail,
                 createdAt: new Date().toISOString()
             }
-            console.log(newReport) // TODO: fetch this to backend
+            fetch(`${backendURL}/new`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newReport)
+            }).then(res => console.log(res))
+            .catch(err => console.log(err));
             // close modal
             modalHandler();
             // reset
