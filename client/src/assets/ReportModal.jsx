@@ -68,7 +68,7 @@ function getStyles(name, personName, theme) {
 const MIN_TITLE_LENGTH = 5;
 const MIN_DETAIL_LENGTH = 10;
 
-const ReportModal = ({ open, modalHandler, lng, lat }) => {
+const ReportModal = ({ open, modalHandler, lng, lat, reportSuccessMsgHandler, reportFailMsgHandler }) => {
     const modalMapConfig = {
         id: "modalMap",
         width: "100%",
@@ -129,8 +129,13 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify(newReport)
-            }).then(res => console.log(res))
-            .catch(err => console.log(err));
+            }).then(res => { 
+                console.log(res);
+                reportSuccessMsgHandler(true);
+            }).catch(err => {
+                console.log(err);
+                reportFailMsgHandler(true);
+            });
             // close modal
             modalHandler();
             // reset
