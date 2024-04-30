@@ -1,9 +1,22 @@
+import * as React from 'react';
 import Box from '@mui/material/Box';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
+import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+import Grow from '@mui/material/Grow';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
 
-const InfoBar = ({ open }) => {
+const InfoBar = ({ infoBarHandler, open }) => {
+    const closeInfoBar = () => {
+        infoBarHandler(false);
+      };
+    
+    const [value, setValue] = React.useState(2);
+
     return (
+        <Grow in={open}>
         <Slide direction="left" in={open} mountOnEnter unmountOnExit>
             <Box sx={{
                 width: "350px",
@@ -16,28 +29,46 @@ const InfoBar = ({ open }) => {
                 backgroundColor: "white"
             }}>
                 <Box sx={{
-                        width: "300px",
-                        height: "150px",
-                        margin: "10px auto",
-                        backgroundColor: "black"
+                    width: "calc(100% - 40px)",
+                    height: "200px",
+                    position: "absolute",
+                    right: "20px",
+                    top: "15px",
+                    border: 2
                 }}>
+                    Information Bar Here
                 </Box>
-                Information Bar Here 
+
                 <Box sx={{
-                    width: "300px",
-                    height: "300px",
-                    margin: "10px auto",
+                    position: "absolute", left: "20px", bottom: "350px"
+                }}>
+                <Typography component="legend">Rate and review</Typography>
+                <Rating 
+                name="Rate and review" 
+                value={value}
+                onChange={(event, newValue) => {
+                setValue(newValue);
+                }}
+                />
+                </Box>
+
+                <Box sx={{
+                    width: "calc(100% - 40px)",
+                    height: "200px",
+                    position: "absolute",
+                    right: "20px",
+                    bottom: "145px",
                     backgroundColor: "lightblue",
                     overflow: "auto"
                 }}>
-                    Review Here
                     <Box sx={{
                         width: "270px",
-                        height: "100px",
-                        margin: "0 auto",
+                        height: "50px",
+                        margin: "10px auto",
                         backgroundColor: "ivory"
                     }}>
                     </Box>
+
                 </Box>
                 <Box
                     component="form"
@@ -54,16 +85,25 @@ const InfoBar = ({ open }) => {
                         rows={2}
                         defaultValue=""
                         sx={{
-                            width: "calc(100% - 50px)",
-                            margin: "0 25px"
+                            width: "calc(100% - 40px)",
+                            position: "absolute", 
+                            right: "20px",
+                            bottom: "55px"
                         }}
                     />
+                    
+                <Button variant="contained" sx={{ position: "absolute", bottom: "10px", right: "20px" }}>Add</Button>
                 </Box>
-
+                <CloseIcon fontSize='small' color='disabled' sx={{
+                    position: "absolute",
+                    right: "5px",
+                    top: "5px",
+                    cursor: "pointer"
+                    }} onClick={closeInfoBar}/>
 
             </Box>
         </Slide>
-        
+        </Grow>
     );
 };
 
