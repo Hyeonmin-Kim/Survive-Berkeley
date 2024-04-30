@@ -9,6 +9,7 @@ import ReportModal from './assets/ReportModal';
 import InfoBar from './assets/InfoBar';
 import CenterButton from './assets/CenterButton';
 import Popup from './assets/Popup';
+import AutoHideSnackbar from './assets/AutoHideSnackbar';
 
 const mainMapConfig = {
   id: "mainMap",
@@ -32,6 +33,9 @@ function App() {
 
     const [currentLocation, setCurrentLocation] = React.useState([]);
     const [highlightPins, setHighlightPins] = React.useState([]);
+
+    const [reportSuccessMsg, setReportSuccessMsg] = React.useState(false);
+    const [reportFailMsg, setReportFailMsg] = React.useState(false);
 
     const toggleReportModal = () => {
       setReportModalOpen(reportModalOpen ? false : true);
@@ -67,6 +71,8 @@ function App() {
             modalHandler={toggleReportModal}
             lng={reportModalCenter.lng}
             lat={reportModalCenter.lat}
+            reportSuccessMsgHandler={setReportSuccessMsg}
+            reportFailMsgHandler={setReportFailMsg}
           />
           <Popup 
             open={popupOpen} 
@@ -75,6 +81,18 @@ function App() {
             highlightPins={highlightPins} 
             highlightPinHandler={setHighlightPins}
             modalMapCenterHandler={setReportModalCenter}
+          />
+          <AutoHideSnackbar
+              open={reportSuccessMsg}
+              setOpen={setReportSuccessMsg}
+              message={"Report added successfully!"}
+              duration={5000}
+          />
+          <AutoHideSnackbar
+              open={reportFailMsg}
+              setOpen={setReportFailMsg}
+              message={"Something went wrong!"}
+              duration={5000}
           />
         </div>
       </>

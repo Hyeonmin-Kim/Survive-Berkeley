@@ -5,6 +5,8 @@ const nullAddress = {
     address: "[UNSPECIFIED]"
 }
 
+const backendURL = "http://localhost:3000";
+
 const getAddress = async (lng, lat) => {
     const url = `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lng}&latitude=${lat}&access_token=${MAPBOX_API}`;
     const address = await fetch(url)
@@ -23,4 +25,4 @@ const getAddress = async (lng, lat) => {
     return address;
 }
 
-export { nullAddress, getAddress };
+export { nullAddress, getAddress, backendURL };

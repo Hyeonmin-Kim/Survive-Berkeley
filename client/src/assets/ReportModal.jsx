@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import AutoHideSnackbar from './AutoHideSnackbar';
 
-import { getAddress, nullAddress } from './utils';
+import { backendURL, getAddress, nullAddress } from './utils';
 
 const style = {
     position: 'absolute',
@@ -68,7 +68,7 @@ function getStyles(name, personName, theme) {
 const MIN_TITLE_LENGTH = 5;
 const MIN_DETAIL_LENGTH = 10;
 
-const ReportModal = ({ open, modalHandler, lng, lat }) => {
+const ReportModal = ({ open, modalHandler, lng, lat, reportSuccessMsgHandler, reportFailMsgHandler }) => {
     const modalMapConfig = {
         id: "modalMap",
         width: "100%",
@@ -122,7 +122,20 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
                 detail,
                 createdAt: new Date().toISOString()
             }
-            console.log(newReport) // TODO: fetch this to backend
+            fetch(`${backendURL}/new`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newReport)
+            }).then(res => { 
+                console.log(res);
+                reportSuccessMsgHandler(true);
+            }).catch(err => {
+                console.log(err);
+                reportFailMsgHandler(true);
+            });
             // close modal
             modalHandler();
             // reset
