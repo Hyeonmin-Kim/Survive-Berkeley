@@ -49,6 +49,7 @@ function App() {
           <MainMap 
             hooker={setMainMap} 
             popupHandler={setPopupOpen} 
+            infoBarHandler={setInfoBarOpen}
             highlightPins={highlightPins} 
             highlightPinHandler={setHighlightPins} 
             currentLocation={currentLocation} 
@@ -61,7 +62,10 @@ function App() {
           />
           <CenterButton mainMap={mainMap} />
           <Categories/>
-          <InfoBar open={infoBarOpen}/>
+          <InfoBar 
+            open={infoBarOpen}
+            infoBarHandler={setInfoBarOpen}
+            />
           <ReportModal 
             open={reportModalOpen} 
             modalHandler={toggleReportModal}

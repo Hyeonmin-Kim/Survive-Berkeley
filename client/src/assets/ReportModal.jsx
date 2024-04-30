@@ -106,7 +106,6 @@ const ReportModal = ({ open, modalHandler, lng, lat }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log([address, title, tagName, detail]);
-
         if (titleError) {
             setTitleErrMsg(true);
         } else if (detailError) {

@@ -9,7 +9,7 @@ import mainMapConfig from './mainMapConfig';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 
-const MainMap = ({ hooker, popupHandler, highlightPins, highlightPinHandler, currentLocation, currentLocationHandler }) => {
+const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highlightPinHandler, currentLocation, currentLocationHandler }) => {
     const mainMapRef = useRef();
 
     const watchLocation = () => {
@@ -42,6 +42,7 @@ const MainMap = ({ hooker, popupHandler, highlightPins, highlightPinHandler, cur
         newPin.address = await getAddress(event.lngLat.lng, event.lngLat.lat);
         highlightPinHandler([newPin]);
         popupHandler(true);
+        infoBarHandler(true);
     };
 
     return (
