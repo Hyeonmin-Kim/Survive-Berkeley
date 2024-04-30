@@ -17,9 +17,12 @@ app.use(express.static(__dirname + "/public"));
 
 app.post("/new", asyncHandler(async (req, res) => {
     const newIncident = new Incident({
-        datatime: new Date(),
-        location: {type: req.body.location, coordinates: [0, 0]},
-        description: req.body.description
+        coords: { lng: req.body.lng, lat: req.body.lat },
+        address: { abbreviated: req.body.abbreviated, full: req.body.full},
+        title: req.body.title,
+        tags: req.body.tags,
+        detail: req.body.detail, 
+        createdAt: req.body.createdAt
     })
     await newIncident.save()
     res.status(201).json(newIncident)
