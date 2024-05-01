@@ -2,12 +2,15 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const http = require('http');
+const { Server } = require("socket.io");
 const { connectToDB, Incident } = require("./database");
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
+const app = express();
+var currSocket;
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,10 +18,34 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + "/public"));
 
+async function start() {
+    await connectToDB();
+    return app.listen(3000, () => {
+        console.log("Listening on port 3000")
+    })
+}
+
+if (require.main === module) {
+    start()
+    .then((server) => {
+        const io = new Server(server, {
+            cors: {
+                origin: "http://localhost:5173",
+                methods: ["GET", "POST"]
+            }
+        });
+        io.on('connection', (socket) => {
+            console.log('a user connected');
+            currSocket = socket;
+        });
+    })
+    .catch((err) => console.error(err));
+}
+
 app.post("/new", asyncHandler(async (req, res) => {
     const newIncident = new Incident({
-        coords: { lng: req.body.lng, lat: req.body.lat },
-        address: { abbreviated: req.body.abbreviated, full: req.body.full},
+        coords: { lng: req.body.coords.lng, lat: req.body.coords.lat },
+        address: { abbreviated: req.body.address.abbreviated, full: req.body.address.full},
         title: req.body.title,
         tags: req.body.tags,
         detail: req.body.detail, 
@@ -26,6 +53,8 @@ app.post("/new", asyncHandler(async (req, res) => {
         comments: []
     })
     await newIncident.save()
+    const allIncidents = await Incident.find()
+    currSocket.emit('incidentUpdate', allIncidents);
     res.status(201).json(newIncident)
 }))
 
@@ -69,17 +98,14 @@ app.get("/incident/:id", asyncHandler(async (req, res) => {
 app.get("/delete/:id", asyncHandler(async (req, res) => {
     const id = req.params.id
     const deleteIncident = await Incident.findByIdAndDelete(id)
+    const allIncidents = await Incident.find()
+    currSocket.emit('incidentUpdate', allIncidents);
     return res.json(deleteIncident)
 }))
 
-async function start() {
-    await connectToDB()
-
-    return app.listen(3000, () => {
-        console.log("Listening on port 3000")
-    })
-}
-
-if (require.main === module) {
-    start().catch((err) => console.error(err));
-}
+// TODO: remove this
+app.get("/deleteAll", asyncHandler(async (req, res) => {
+    await Incident.deleteMany({});
+    currSocket.emit('incidentUpdate', []);
+    return res.status(200).send("OK");
+}))

@@ -1,5 +1,7 @@
 import './App.css'
 import * as React from 'react';
+import { useEffect } from 'react';
+import { socket } from './socket';
 import Header from './assets/Header';
 import ReportButton from './assets/ReportButton';
 import MainMap from './assets/MainMap';
@@ -10,6 +12,7 @@ import InfoBar from './assets/InfoBar';
 import CenterButton from './assets/CenterButton';
 import Popup from './assets/Popup';
 import AutoHideSnackbar from './assets/AutoHideSnackbar';
+import { backendURL } from './assets/utils';
 
 const mainMapConfig = {
   id: "mainMap",
@@ -33,6 +36,7 @@ function App() {
 
     const [currentLocation, setCurrentLocation] = React.useState([]);
     const [highlightPins, setHighlightPins] = React.useState([]);
+    const [incidentPins, setIncidentPins] = React.useState([]);
 
     const [reportSuccessMsg, setReportSuccessMsg] = React.useState(false);
     const [reportFailMsg, setReportFailMsg] = React.useState(false);
@@ -44,6 +48,30 @@ function App() {
     const toggleInfoBar = () => {
       setInfoBarOpen(infoBarOpen ? false : true);
     }
+
+    const fetchIncidents = () => {
+      fetch(`${backendURL}/incidents`)
+        .then(res => res.json())
+        .then(data => {
+          setIncidentPins(data);
+          return data;
+        })
+        .catch(error => { 
+          console.log(error);
+          return [];
+        });
+    }
+
+    useEffect(() => {
+      fetchIncidents();
+      socket.on('connect', () => {
+        console.log("connected!");
+      });
+      socket.on('incidentUpdate', (allIncidents) => {
+        console.log(`New incidents: ${allIncidents}`);4
+        setIncidentPins(allIncidents);
+      })
+    }, []);
 
     return (
       <>
@@ -57,7 +85,8 @@ function App() {
             highlightPins={highlightPins} 
             highlightPinHandler={setHighlightPins} 
             currentLocation={currentLocation} 
-            currentLocationHandler={setCurrentLocation} 
+            currentLocationHandler={setCurrentLocation}
+            incidentPins={incidentPins}
           />
           <ReportButton 
             modalHandler={toggleReportModal} 

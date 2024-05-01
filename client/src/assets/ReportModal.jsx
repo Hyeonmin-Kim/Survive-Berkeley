@@ -122,6 +122,7 @@ const ReportModal = ({ open, modalHandler, lng, lat, reportSuccessMsgHandler, re
                 detail,
                 createdAt: new Date().toISOString()
             }
+            console.log(newReport);
             fetch(`${backendURL}/new`, {
                 method: "POST",
                 mode: "cors",
