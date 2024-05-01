@@ -19,8 +19,8 @@ app.use(express.static(__dirname + "/public"));
 
 app.post("/new", asyncHandler(async (req, res) => {
     const newIncident = new Incident({
-        coords: { lng: req.body.lng, lat: req.body.lat },
-        address: { abbreviated: req.body.abbreviated, full: req.body.full},
+        coords: { lng: req.body.coords.lng, lat: req.body.coords.lat },
+        address: { abbreviated: req.body.address.abbreviated, full: req.body.address.full},
         title: req.body.title,
         tags: req.body.tags,
         detail: req.body.detail, 
@@ -72,6 +72,12 @@ app.get("/delete/:id", asyncHandler(async (req, res) => {
     const id = req.params.id
     const deleteIncident = await Incident.findByIdAndDelete(id)
     return res.json(deleteIncident)
+}))
+
+// TODO: remove this
+app.get("/deleteAll", asyncHandler(async (req, res) => {
+    await Incident.deleteMany({});
+    return res.status(200).send("OK");
 }))
 
 async function start() {

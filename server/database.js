@@ -7,13 +7,13 @@ const dbConnectionUri = `mongodb+srv://${process.env.SECRET_USERNAME}:${process.
 const dbName = "survive-berkeley";
 
 const incidentSchema = new mongoose.Schema({
-    coords: { lng: Number, lat: Number },
-    address: { abbreviated: String, full: String},
+    coords: {lng: Number, lat: Number},
+    address: {abbreviated: String, full: String},
     title: String,
-    tags: [],
+    tags: [String],
     detail: String, 
     createdAt: String,
-    comments: []
+    comments: [mongoose.Schema.Types.UUID]
 })
 
 const commentSchema = new mongoose.Schema({
