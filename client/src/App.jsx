@@ -67,6 +67,10 @@ function App() {
       socket.on('connect', () => {
         console.log("connected!");
       });
+      socket.on('incidentUpdate', (allIncidents) => {
+        console.log(`New incidents: ${allIncidents}`);4
+        setIncidentPins(allIncidents);
+      })
     }, []);
 
     return (

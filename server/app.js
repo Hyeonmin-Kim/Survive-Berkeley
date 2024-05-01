@@ -10,12 +10,37 @@ const { connectToDB, Incident } = require("./database");
 dotenv.config();
 
 const app = express();
+var currSocket;
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + "/public"));
+
+async function start() {
+    await connectToDB();
+    return app.listen(3000, () => {
+        console.log("Listening on port 3000")
+    })
+}
+
+if (require.main === module) {
+    start()
+    .then((server) => {
+        const io = new Server(server, {
+            cors: {
+                origin: "http://localhost:5173",
+                methods: ["GET", "POST"]
+            }
+        });
+        io.on('connection', (socket) => {
+            console.log('a user connected');
+            currSocket = socket;
+        });
+    })
+    .catch((err) => console.error(err));
+}
 
 app.post("/new", asyncHandler(async (req, res) => {
     const newIncident = new Incident({
@@ -28,6 +53,8 @@ app.post("/new", asyncHandler(async (req, res) => {
         comments: []
     })
     await newIncident.save()
+    const allIncidents = await Incident.find()
+    currSocket.emit('incidentUpdate', allIncidents);
     res.status(201).json(newIncident)
 }))
 
@@ -79,27 +106,3 @@ app.get("/deleteAll", asyncHandler(async (req, res) => {
     await Incident.deleteMany({});
     return res.status(200).send("OK");
 }))
-
-async function start() {
-    await connectToDB();
-    
-    return app.listen(3000, () => {
-        console.log("Listening on port 3000")
-    })
-}
-
-if (require.main === module) {
-    start()
-    .then((server) => {
-        const io = new Server(server, {
-            cors: {
-                origin: "http://localhost:5173",
-                methods: ["GET", "POST"]
-            }
-        });
-        io.on('connection', (socket) => {
-            console.log('a user connected');
-        });
-    })
-    .catch((err) => console.error(err));
-}
