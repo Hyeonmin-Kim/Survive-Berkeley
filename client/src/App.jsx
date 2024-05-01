@@ -1,5 +1,7 @@
 import './App.css'
 import * as React from 'react';
+import { useEffect } from 'react';
+import { socket } from './socket';
 import Header from './assets/Header';
 import ReportButton from './assets/ReportButton';
 import MainMap from './assets/MainMap';
@@ -20,6 +22,12 @@ const mainMapConfig = {
 };
 
 function App() {
+    useEffect(() => {
+      socket.on('connect', () => {
+        console.log("connected!");
+      });
+    }, []);
+
     const [reportModalOpen, setReportModalOpen] = React.useState(false);
     const [infoBarOpen, setInfoBarOpen] = React.useState(false);
     const [popupOpen, setPopupOpen] = React.useState(false);
