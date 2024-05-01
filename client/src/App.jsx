@@ -12,6 +12,7 @@ import InfoBar from './assets/InfoBar';
 import CenterButton from './assets/CenterButton';
 import Popup from './assets/Popup';
 import AutoHideSnackbar from './assets/AutoHideSnackbar';
+import { backendURL } from './assets/utils';
 
 const mainMapConfig = {
   id: "mainMap",
@@ -22,12 +23,6 @@ const mainMapConfig = {
 };
 
 function App() {
-    useEffect(() => {
-      socket.on('connect', () => {
-        console.log("connected!");
-      });
-    }, []);
-
     const [reportModalOpen, setReportModalOpen] = React.useState(false);
     const [infoBarOpen, setInfoBarOpen] = React.useState(false);
     const [popupOpen, setPopupOpen] = React.useState(false);
@@ -41,6 +36,7 @@ function App() {
 
     const [currentLocation, setCurrentLocation] = React.useState([]);
     const [highlightPins, setHighlightPins] = React.useState([]);
+    const [incidentPins, setIncidentPins] = React.useState([]);
 
     const [reportSuccessMsg, setReportSuccessMsg] = React.useState(false);
     const [reportFailMsg, setReportFailMsg] = React.useState(false);
@@ -52,6 +48,26 @@ function App() {
     const toggleInfoBar = () => {
       setInfoBarOpen(infoBarOpen ? false : true);
     }
+
+    const fetchIncidents = () => {
+      fetch(`${backendURL}/incidents`)
+        .then(res => res.json())
+        .then(data => {
+          setIncidentPins(data);
+          return data;
+        })
+        .catch(error => { 
+          console.log(error);
+          return [];
+        });
+    }
+
+    useEffect(() => {
+      fetchIncidents();
+      socket.on('connect', () => {
+        console.log("connected!");
+      });
+    }, []);
 
     return (
       <>
@@ -65,7 +81,8 @@ function App() {
             highlightPins={highlightPins} 
             highlightPinHandler={setHighlightPins} 
             currentLocation={currentLocation} 
-            currentLocationHandler={setCurrentLocation} 
+            currentLocationHandler={setCurrentLocation}
+            incidentPins={incidentPins}
           />
           <ReportButton 
             modalHandler={toggleReportModal} 

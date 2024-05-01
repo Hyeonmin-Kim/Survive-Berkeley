@@ -8,8 +8,9 @@ import { Map, Marker }  from 'react-map-gl';
 import mainMapConfig from './mainMapConfig';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import ReportIcon from '@mui/icons-material/Report';
 
-const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highlightPinHandler, currentLocation, currentLocationHandler }) => {
+const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highlightPinHandler, currentLocation, currentLocationHandler, incidentPins }) => {
     const mainMapRef = useRef();
 
     const watchLocation = () => {
@@ -74,6 +75,11 @@ const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highligh
             {currentLocation.map((currPos) => 
                 <Marker key={currPos.key} longitude={currPos.lng} latitude={currPos.lat} anchor="bottom" >
                     <GpsFixedIcon fontSize='small' color='primary'/>
+                </Marker>
+            )}
+            {incidentPins.map((incident) => 
+                <Marker key={incident._id} longitude={incident.coords.lng} latitude={incident.coords.lat} anchor="bottom" >
+                    <ReportIcon fontSize='medium' color='secondary'/>
                 </Marker>
             )}
         </Map>
