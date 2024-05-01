@@ -12,8 +12,18 @@ const incidentSchema = new mongoose.Schema({
     title: String,
     tags: [],
     detail: String, 
-    createdAt: String
+    createdAt: String,
+    comments: []
 })
+
+const commentSchema = new mongoose.Schema({
+    incidentId: mongoose.Schema.Types.UUID,
+    contents: String,
+    createdAt: String,
+    reaction: Boolean
+})
+
+const Comment = mongoose.model('Comment', commentSchema)
 
 const Incident = mongoose.model('Incident', incidentSchema);
 
@@ -22,4 +32,4 @@ async function connectToDB() {
     console.log("Successfully connected to MongoDB");
 }
 
-module.exports = { connectToDB, Incident };
+module.exports = { connectToDB, Incident, Comment };

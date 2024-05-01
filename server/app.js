@@ -22,10 +22,37 @@ app.post("/new", asyncHandler(async (req, res) => {
         title: req.body.title,
         tags: req.body.tags,
         detail: req.body.detail, 
-        createdAt: req.body.createdAt
+        createdAt: req.body.createdAt,
+        comments: []
     })
     await newIncident.save()
     res.status(201).json(newIncident)
+}))
+
+app.post("/:id/new/comment", asyncHandler(async (req, res) => {
+    const newComment = new Comment({
+        incidentId: req.params.id,
+        contents: req.body.contents,
+        createdAt: req.body.createdAt,
+        reaction: req.body.reaction
+    })
+    
+    const currIncident = await Incident.findById(req.params.id)
+    currIncident.comments.push(newComment._id)
+
+    await newComment.save()
+    res.status(201).json(newIncident)
+}))
+
+app.get("/:id/comments", asyncHandler(async (req, res) => {
+    const foundIncident = await Incident.findById(req.params.id)
+    const commentsJson = []
+    for (const comment of foundIncident.comments) {
+        const currComment = await Comment.findById(comment)
+        commentsJson.push(currComment)
+    }
+
+    return res.status(200).json(commentsJson)
 }))
 
 app.get("/incidents", asyncHandler(async (req, res) => {
