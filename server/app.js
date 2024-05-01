@@ -98,11 +98,14 @@ app.get("/incident/:id", asyncHandler(async (req, res) => {
 app.get("/delete/:id", asyncHandler(async (req, res) => {
     const id = req.params.id
     const deleteIncident = await Incident.findByIdAndDelete(id)
+    const allIncidents = await Incident.find()
+    currSocket.emit('incidentUpdate', allIncidents);
     return res.json(deleteIncident)
 }))
 
 // TODO: remove this
 app.get("/deleteAll", asyncHandler(async (req, res) => {
     await Incident.deleteMany({});
+    currSocket.emit('incidentUpdate', []);
     return res.status(200).send("OK");
 }))
