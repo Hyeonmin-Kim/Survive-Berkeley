@@ -34,9 +34,14 @@ const InfoBar = ({ infoBarHandler, open }) => {
                     position: "absolute",
                     right: "20px",
                     top: "15px",
-                    border: 2
+                    overflow: "auto"
                 }}>
-                    Information Bar Here
+                <Typography variant="h5">Robbery at Sproul Plaza</Typography>
+                <Typography variant="h7">gun shooting, robbery</Typography>
+                <Typography component="legend">On 04-28-2024 18:00, a robbery occurred at UC Berkeley Main Campus - Upper Capmus 
+                Plaza. While in the area of Upper Splroul Plaza, 2 suspects used physical force to rob a victim of his backpack and contecnts!
+                Suspects are still at the area. Please avoid the area. 
+                </Typography>
                 </Box>
 
                 <Box sx={{
