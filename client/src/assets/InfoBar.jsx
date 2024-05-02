@@ -16,11 +16,12 @@ import { backendURL } from './utils';
 const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
     const [upCount, setupCount] = useState(0);
     const [downCount, setdownCount] = useState(0);
-
     const [title, setTitle] = useState("");
     const [tags, setTags] = useState([])
     const [detail, setDetail] = useState("");
     const [comments, setComments] = useState([]);
+
+    const [liked, setLiked] = useState(true);
 
     React.useEffect(() => {
         const getIncident = async () => {
@@ -87,13 +88,13 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
                         defaultValue=""
                         sx={{ width: "100%", marginBottom: "10px" }}
                     />
-                </Box>
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <ButtonGroup variant="outlined" aria-label="Basic button group" sx={{}}>
-                    <Button onClick={() => setupCount(upCount + 1)} startIcon={<ThumbUpIcon/>}>{upCount}</Button>
-                    <Button onClick={() => setdownCount(downCount + 1)} startIcon={<ThumbDownIcon/>}>{downCount}</Button>
-                </ButtonGroup>
-                <Button variant="contained" size="medium" sx={{ marginTop: "0" }}>Add</Button>
+                    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                        <ButtonGroup variant="outlined" aria-label="Basic button group" sx={{}}>
+                            <Button onClick={() => setLiked(true)} startIcon={<ThumbUpIcon/>} color={liked ? "primary" : "inherit"}>{liked ? upCount + 1 : upCount}</Button>
+                            <Button onClick={() => setLiked(false)} startIcon={<ThumbDownIcon/>} color={liked ? "inherit" : "primary"}>{liked ? downCount : downCount + 1}</Button>
+                        </ButtonGroup>
+                        <Button variant="contained" size="medium" sx={{ marginTop: "0" }}>Add</Button>
+                    </Box>
                 </Box>
                 
 
