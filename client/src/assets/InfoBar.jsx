@@ -14,12 +14,22 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { backendURL } from './utils';
 
 const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
+    const [upCount, setupCount] = useState(0);
+    const [downCount, setdownCount] = useState(0);
+
+    const [title, setTitle] = useState("");
+    const [tags, setTags] = useState([])
+    const [detail, setDetail] = useState("");
+
     React.useEffect(() => {
         const getIncident = async () => {
             if (!open) return;
             const res = await fetch(`${backendURL}/incident/${currIncidentID}`);
             const data = await res.json();
-            console.log(data);
+            const { title: titleData, tags: tagsData, detail: detailData } = data;
+            setTitle(titleData);
+            setTags(tagsData);
+            setDetail(detailData);
         };
         getIncident();
     }, [currIncidentID]);
@@ -27,9 +37,6 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
     const closeInfoBar = () => {
         infoBarHandler(false);
       };
-    
-    const [upCount, setupCount] = useState(0);
-    const [downCount, setdownCount] = useState(0);
 
     return (
         <Slide direction="left" in={open} mountOnEnter unmountOnExit> 
@@ -47,15 +54,13 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
             }}>
                 
                 <Box sx={{ marginBottom: "30px" }}>
-                <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: "10px" }}>Robbery at Sproul Plaza</Typography>
+                <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: "10px" }}>{title}</Typography>
                 <Stack direction="row" spacing={1} sx={{ marginBottom: "10px" }}>
-                    <Chip label="Gun Shooting" />
-                    <Chip label="Robbery" />
+                    {tags.map((tag) => 
+                        <Chip label={tag}/>
+                    )}
                 </Stack>
-                <Typography variant="body2">On 04-28-2024 18:00, a robbery occurred at UC Berkeley Main Campus - Upper Capmus 
-                Plaza. While in the area of Upper Splroul Plaza, 2 suspects used physical force to rob a victim of his backpack and contecnts!
-                Suspects are still at the area. Please avoid the area.
-                </Typography>
+                <Typography variant="body2">{detail}</Typography>
                 </Box>
 
                 <Box
