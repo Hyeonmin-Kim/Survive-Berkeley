@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Map from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import MAPBOX_API from './credentials';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -166,7 +165,7 @@ const ReportModal = ({ open, modalHandler, lng, lat, reportSuccessMsgHandler, re
                 }}>
                     <Box sx={{ width: '40%', paddingRight: '10px' }}>
                     <Map
-                        mapboxAccessToken={MAPBOX_API}
+                        mapboxAccessToken={import.meta.env.MAPBOX_API}
                         initialViewState={{
                             longitude: modalMapConfig.center[0],
                             latitude: modalMapConfig.center[1],

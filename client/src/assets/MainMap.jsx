@@ -1,5 +1,4 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
-import MAPBOX_API from './credentials';
 
 import { getAddress } from './utils';
 
@@ -50,7 +49,7 @@ const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highligh
         <Map
             id="mainMap"
             ref={mainMapRef}
-            mapboxAccessToken={MAPBOX_API}
+            mapboxAccessToken={import.meta.env.MAPBOX_API}
             initialViewState={{
                 longitude: mainMapConfig.center[0],
                 latitude: mainMapConfig.center[1],
