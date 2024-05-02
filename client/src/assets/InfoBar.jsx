@@ -1,23 +1,27 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Grow from '@mui/material/Grow';
-import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown'; 
 
 const InfoBar = ({ infoBarHandler, open }) => {
     const closeInfoBar = () => {
         infoBarHandler(false);
       };
     
-    const [value, setValue] = React.useState(2);
+    const [upCount, setupCount] = useState(0);
+    const [downCount, setdownCount] = useState(0);
 
     return (
         <Grow in={open}>
-        <Slide direction="left" in={open} mountOnEnter unmountOnExit>
+        <Slide direction="left" in={open} mountOnEnter unmountOnExit> 
             <Box sx={{
                 width: "350px",
                 height: "calc(100vh - 114px)",
@@ -28,56 +32,30 @@ const InfoBar = ({ infoBarHandler, open }) => {
                 boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                 backgroundColor: "white"
             }}>
+                
                 <Box sx={{
                     width: "calc(100% - 40px)",
-                    height: "200px",
+                    height: "235px",
                     position: "absolute",
                     right: "20px",
                     top: "15px",
-                    border: 2
-                }}>
-                    Information Bar Here
-                </Box>
-
-                <Box sx={{
-                    position: "absolute", left: "20px", bottom: "350px"
-                }}>
-                <Typography component="legend">Rate and review</Typography>
-                <Rating 
-                name="Rate and review" 
-                value={value}
-                onChange={(event, newValue) => {
-                setValue(newValue);
-                }}
-                />
-                </Box>
-
-                <Box sx={{
-                    width: "calc(100% - 40px)",
-                    height: "200px",
-                    position: "absolute",
-                    right: "20px",
-                    bottom: "145px",
-                    backgroundColor: "lightblue",
+                    borderBottom: 1,
                     overflow: "auto"
                 }}>
-                    <Box sx={{
-                        width: "270px",
-                        height: "50px",
-                        margin: "10px auto",
-                        backgroundColor: "ivory"
-                    }}>
-                    </Box>
-
+                <Typography variant="h5" sx={{ fontWeight: "bold" }}>Robbery at Sproul Plaza</Typography>
+                <Typography variant="h7" sx={{ fontWeight: "bold" }}>gun shooting, robbery</Typography>
+                <Typography component="legend">On 04-28-2024 18:00, a robbery occurred at UC Berkeley Main Campus - Upper Capmus 
+                Plaza. While in the area of Upper Splroul Plaza, 2 suspects used physical force to rob a victim of his backpack and contecnts!
+                Suspects are still at the area. Please avoid the area.
+                </Typography>
                 </Box>
+
+                <Typography component="legend" sx={{ fontWeight: "bold", position: "absolute", bottom: "340px", left: "20px" }}>Review and Comment</Typography>
                 <Box
                     component="form"
-                    sx={{
-                        width: "100%"
-                    }}
+                    sx={{ width: "100%" }}
                     noValidate
-                    autoComplete="off"
-                >
+                    autoComplete="off">
                     <TextField
                         id="outlined-multiline-static"
                         label="New Comment"
@@ -86,14 +64,42 @@ const InfoBar = ({ infoBarHandler, open }) => {
                         defaultValue=""
                         sx={{
                             width: "calc(100% - 40px)",
-                            position: "absolute", 
-                            right: "20px",
-                            bottom: "55px"
+                            position: "absolute",
+                            bottom: "255px",
+                            left: "20px"
                         }}
                     />
-                    
-                <Button variant="contained" sx={{ position: "absolute", bottom: "10px", right: "20px" }}>Add</Button>
                 </Box>
+                <ButtonGroup variant="outlined" aria-label="Basic button group" sx={{ position: "absolute", bottom: "215px", left: "20px" }}>
+                    <Button onClick={() => setupCount(upCount + 1)} startIcon={<ThumbUpIcon/>}>{upCount}</Button>
+                    <Button onClick={() => setdownCount(downCount + 1)} startIcon={<ThumbDownIcon/>}>{downCount}</Button>
+                </ButtonGroup>
+                <Button variant="contained" size="medium" sx={{ position: "absolute", bottom: "215px", right: "20px" }}>Add</Button>
+
+                <Box sx={{
+                    width: "calc(100% - 40px)",
+                    height: "200px",
+                    position: "absolute",
+                    right: "20px",
+                    bottom: "10px",
+                    border: 1,
+                    borderRadius: 1,
+                    overflow: "auto"
+                }}>
+                    <Box sx={{ margin: "5px 10px", borderBottom:1 }}>
+                        <Typography fontSize="small">I was there when it happened. Shit was crazy. Also I am pretty sure
+                        that he had the green pants on. Be careful.</Typography>
+                    </Box>
+                    <Box sx={{ margin: "5px 10px", borderBottom:1 }}>
+                        <Typography fontSize="small">I was there when it happened. Shit was crazy. Also I am pretty sure
+                        that he had the green pants on. Be careful.</Typography>
+                    </Box>
+                    <Box sx={{ margin: "5px 10px", borderBottom:1 }}>
+                        <Typography fontSize="small">I was there when it happened. Shit was crazy. Also I am pretty sure
+                        that he had the green pants on. Be careful.</Typography>
+                    </Box>
+                </Box> 
+
                 <CloseIcon fontSize='small' color='disabled' sx={{
                     position: "absolute",
                     right: "5px",
