@@ -72,6 +72,8 @@ const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highligh
                 latitude: mainMapConfig.center[1],
                 zoom: mainMapConfig.zoom
             }}
+            minZoom={mainMapConfig.minZoom}
+            maxBounds={mainMapConfig.maxBounds}
             mapStyle="mapbox://styles/mapbox/streets-v11"
             style={{
                 width: mainMapConfig.width,
