@@ -22,6 +22,7 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
     const [comments, setComments] = useState([]);
 
     const [liked, setLiked] = useState(true);
+    const [commentContent, setCommentContent] = useState("");
 
     React.useEffect(() => {
         const getIncident = async () => {
@@ -39,6 +40,7 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
             // 2. fetch comment info
             const res = await fetch(`${backendURL}/${currIncidentID}/comments`);
             const data = await res.json();
+            console.log(data);
             setComments(data);
         };
         getIncident();
@@ -48,6 +50,26 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
     const closeInfoBar = () => {
         infoBarHandler(false);
       };
+
+    const submitComment = async () => {
+        const newComment = {
+            incidentID: currIncidentID,
+            contents: commentContent,
+            createdAt: new Date().toISOString(),
+            reaction: liked
+        };
+        await fetch(`${backendURL}/${currIncidentID}/new/comment`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newComment)     
+        });
+        setCommentContent("");
+        setLiked(true);
+        comments.push(newComment);
+    }
 
     return (
         <Slide direction="left" in={open} mountOnEnter unmountOnExit> 
@@ -68,7 +90,7 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
                 <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: "10px" }}>{title}</Typography>
                 <Stack direction="row" spacing={1} sx={{ marginBottom: "10px" }}>
                     {tags.map((tag) => 
-                        <Chip label={tag}/>
+                        <Chip key={tag} label={tag}/>
                     )}
                 </Stack>
                 <Typography variant="body2">{detail}</Typography>
@@ -85,7 +107,10 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
                         label="New Comment"
                         multiline
                         rows={2}
-                        defaultValue=""
+                        value={commentContent}
+                        onChange={(e) => {
+                            setCommentContent(e.target.value);
+                        }}
                         sx={{ width: "100%", marginBottom: "10px" }}
                     />
                     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -93,7 +118,7 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
                             <Button onClick={() => setLiked(true)} startIcon={<ThumbUpIcon/>} color={liked ? "primary" : "inherit"}>{liked ? upCount + 1 : upCount}</Button>
                             <Button onClick={() => setLiked(false)} startIcon={<ThumbDownIcon/>} color={liked ? "inherit" : "primary"}>{liked ? downCount : downCount + 1}</Button>
                         </ButtonGroup>
-                        <Button variant="contained" size="medium" sx={{ marginTop: "0" }}>Add</Button>
+                        <Button variant="contained" size="medium" sx={{ marginTop: "0" }} onClick={submitComment}>Add</Button>
                     </Box>
                 </Box>
                 

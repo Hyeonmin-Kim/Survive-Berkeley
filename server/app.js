@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const dotenv = require('dotenv');
 const http = require('http');
 const { Server } = require("socket.io");
-const { connectToDB, Incident } = require("./database");
+const { connectToDB, Incident, Comment } = require("./database");
 
 dotenv.config();
 
@@ -68,9 +68,9 @@ app.post("/:id/new/comment", asyncHandler(async (req, res) => {
     
     const currIncident = await Incident.findById(req.params.id)
     currIncident.comments.push(newComment._id)
-
+    await currIncident.save()
     await newComment.save()
-    res.status(201).json(newIncident)
+    res.status(201).json(currIncident)
 }))
 
 app.get("/:id/comments", asyncHandler(async (req, res) => {
