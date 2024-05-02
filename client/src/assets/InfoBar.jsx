@@ -11,8 +11,19 @@ import Typography from '@mui/material/Typography';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'; 
+import { backendURL } from './utils';
 
-const InfoBar = ({ infoBarHandler, open }) => {
+const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
+    React.useEffect(() => {
+        const getIncident = async () => {
+            if (!open) return;
+            const res = await fetch(`${backendURL}/incident/${currIncidentID}`);
+            const data = await res.json();
+            console.log(data);
+        };
+        getIncident();
+    }, [currIncidentID]);
+    
     const closeInfoBar = () => {
         infoBarHandler(false);
       };

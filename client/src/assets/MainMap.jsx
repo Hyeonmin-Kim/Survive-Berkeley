@@ -10,7 +10,7 @@ import AddLocationIcon from '@mui/icons-material/AddLocation';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import ReportIcon from '@mui/icons-material/Report';
 
-const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highlightPinHandler, currentLocation, currentLocationHandler, incidentPins }) => {
+const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highlightPinHandler, currentLocation, currentLocationHandler, incidentPins, currIncidentIDHandler }) => {
     const mainMapRef = useRef();
 
     const [incidentPinCliked, setIncidentPinClicked] = useState(false);
@@ -57,7 +57,8 @@ const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highligh
 
     const incidentPinOnClick = async (incidentId) => {
         setIncidentPinClicked(true);
-        console.log(incidentId);
+        currIncidentIDHandler(incidentId);
+        infoBarHandler(true);
     }
 
     return (
