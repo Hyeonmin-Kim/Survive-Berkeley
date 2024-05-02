@@ -41,12 +41,10 @@ function App() {
     const [reportSuccessMsg, setReportSuccessMsg] = React.useState(false);
     const [reportFailMsg, setReportFailMsg] = React.useState(false);
 
+    const [currIncidentID, setCurrentIncidentID] = React.useState("");
+
     const toggleReportModal = () => {
       setReportModalOpen(reportModalOpen ? false : true);
-    }
-
-    const toggleInfoBar = () => {
-      setInfoBarOpen(infoBarOpen ? false : true);
     }
 
     const fetchIncidents = () => {
@@ -87,6 +85,7 @@ function App() {
             currentLocation={currentLocation} 
             currentLocationHandler={setCurrentLocation}
             incidentPins={incidentPins}
+            currIncidentIDHandler={setCurrentIncidentID}
           />
           <ReportButton 
             modalHandler={toggleReportModal} 
@@ -98,6 +97,7 @@ function App() {
           <InfoBar 
             open={infoBarOpen}
             infoBarHandler={setInfoBarOpen}
+            currIncidentID={currIncidentID}
             />
           <ReportModal 
             open={reportModalOpen} 

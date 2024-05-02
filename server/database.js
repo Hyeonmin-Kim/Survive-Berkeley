@@ -13,11 +13,12 @@ const incidentSchema = new mongoose.Schema({
     tags: [String],
     detail: String, 
     createdAt: String,
-    comments: [mongoose.Schema.Types.UUID]
+    comments: [String],
+    reactions: { liked: Number, disliked: Number }
 })
 
 const commentSchema = new mongoose.Schema({
-    incidentId: mongoose.Schema.Types.UUID,
+    incidentId: String,
     contents: String,
     createdAt: String,
     reaction: Boolean
