@@ -50,7 +50,8 @@ app.post("/new", asyncHandler(async (req, res) => {
         tags: req.body.tags,
         detail: req.body.detail, 
         createdAt: req.body.createdAt,
-        comments: []
+        comments: [],
+        reactions: { liked: 0, disliked: 0 }
     })
     await newIncident.save()
     const allIncidents = await Incident.find()
@@ -67,7 +68,12 @@ app.post("/:id/new/comment", asyncHandler(async (req, res) => {
     })
     
     const currIncident = await Incident.findById(req.params.id)
-    currIncident.comments.push(newComment._id)
+    currIncident.comments.push(newComment._id);
+    if (newComment.reaction) {
+        currIncident.reactions.liked++;
+    } else {
+        currIncident.reactions.disliked++;
+    }
     await currIncident.save()
     await newComment.save()
     res.status(201).json(currIncident)

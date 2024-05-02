@@ -13,7 +13,8 @@ const incidentSchema = new mongoose.Schema({
     tags: [String],
     detail: String, 
     createdAt: String,
-    comments: [String]
+    comments: [String],
+    reactions: { liked: Number, disliked: Number }
 })
 
 const commentSchema = new mongoose.Schema({

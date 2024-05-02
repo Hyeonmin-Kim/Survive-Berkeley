@@ -30,10 +30,12 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
             // 1. fetch incident info
             const res = await fetch(`${backendURL}/incident/${currIncidentID}`);
             const data = await res.json();
-            const { title: titleData, tags: tagsData, detail: detailData } = data;
+            const { title: titleData, tags: tagsData, detail: detailData, reactions: { liked: likedData, disliked: dislikedData } } = data;
             setTitle(titleData);
             setTags(tagsData);
             setDetail(detailData);
+            setupCount(likedData);
+            setdownCount(dislikedData);
         };
         const getComments = async () => {
             if (!open) return;
@@ -45,7 +47,7 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
         };
         getIncident();
         getComments();
-    }, [currIncidentID]);
+    }, [currIncidentID, open]);
     
     const closeInfoBar = () => {
         infoBarHandler(false);
@@ -67,6 +69,11 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
             body: JSON.stringify(newComment)     
         });
         setCommentContent("");
+        if (liked) {
+            setupCount(upCount + 1);
+        } else {
+            setdownCount(downCount + 1);
+        }
         setLiked(true);
         comments.push(newComment);
     }
