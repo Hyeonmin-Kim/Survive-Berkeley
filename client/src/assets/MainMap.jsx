@@ -94,8 +94,8 @@ const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highligh
                 </Marker>
             )}
             {incidentPins.map((incident) => 
-                <Marker key={incident._id} longitude={incident.coords.lng} latitude={incident.coords.lat} anchor="bottom" onClick={() => incidentPinOnClick(incident._id)} sx={{ cursor: "pointer"}} >
-                    <ReportIcon fontSize='medium' color='secondary'/>
+                <Marker key={incident._id} longitude={incident.coords.lng} latitude={incident.coords.lat} anchor="bottom" onClick={() => incidentPinOnClick(incident._id)} >
+                    <ReportIcon fontSize='medium' color={incident.reactions.liked >= incident.reactions.disliked ? "secondary" : "disabled"}/>
                 </Marker>
             )}
         </Map>
