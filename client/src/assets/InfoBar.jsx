@@ -20,10 +20,12 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
     const [title, setTitle] = useState("");
     const [tags, setTags] = useState([])
     const [detail, setDetail] = useState("");
+    const [comments, setComments] = useState([]);
 
     React.useEffect(() => {
         const getIncident = async () => {
             if (!open) return;
+            // 1. fetch incident info
             const res = await fetch(`${backendURL}/incident/${currIncidentID}`);
             const data = await res.json();
             const { title: titleData, tags: tagsData, detail: detailData } = data;
@@ -31,7 +33,15 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
             setTags(tagsData);
             setDetail(detailData);
         };
+        const getComments = async () => {
+            if (!open) return;
+            // 2. fetch comment info
+            const res = await fetch(`${backendURL}/${currIncidentID}/comments`);
+            const data = await res.json();
+            setComments(data);
+        };
         getIncident();
+        getComments();
     }, [currIncidentID]);
     
     const closeInfoBar = () => {
@@ -90,18 +100,11 @@ const InfoBar = ({ infoBarHandler, open, currIncidentID }) => {
                 <Box sx={{
                     marginTop: "20px"
                 }}>
-                    <Box sx={{ paddingBottom: "5px", marginBottom: "10px", borderBottom: "1px solid lightGrey" }}>
-                        <Typography fontSize="small">I was there when it happened. Shit was crazy. Also I am pretty sure
-                        that he had the green pants on. Be careful.</Typography>
-                    </Box>
-                    <Box sx={{ paddingBottom: "5px", marginBottom: "10px", borderBottom: "1px solid lightGrey" }}>
-                        <Typography fontSize="small">I was there when it happened. Shit was crazy. Also I am pretty sure
-                        that he had the green pants on. Be careful.</Typography>
-                    </Box>
-                    <Box sx={{ paddingBottom: "5px", marginBottom: "10px", borderBottom: "1px solid lightGrey" }}>
-                        <Typography fontSize="small">I was there when it happened. Shit was crazy. Also I am pretty sure
-                        that he had the green pants on. Be careful.</Typography>
-                    </Box>
+                    {comments.map(comment => 
+                        <Box key={comment._id} sx={{ paddingBottom: "5px", marginBottom: "10px", borderBottom: "1px solid lightGrey" }}>
+                            <Typography fontSize="small">{comment.contents}</Typography>
+                        </Box>
+                    )}
                 </Box> 
 
                 <CloseIcon fontSize='small' color='disabled' sx={{

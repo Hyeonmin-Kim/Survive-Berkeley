@@ -50,7 +50,7 @@ const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highligh
             newPin.address = await getAddress(event.lngLat.lng, event.lngLat.lat);
             highlightPinHandler([newPin]);
             popupHandler(true);
-            infoBarHandler(true);
+            infoBarHandler(false);
             }
         }, 10);
     };
@@ -59,6 +59,7 @@ const MainMap = ({ hooker, popupHandler, infoBarHandler, highlightPins, highligh
         setIncidentPinClicked(true);
         currIncidentIDHandler(incidentId);
         infoBarHandler(true);
+        popupHandler(false);
     }
 
     return (
